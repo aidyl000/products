@@ -1,12 +1,18 @@
-# 先讀取檔案
-products = []
-with open('products.csv', 'r', encoding = 'utf-8') as f:
-    for line in f:
-        if '商品,價格' in line:
-            continue # 跳到下一迴
-        name, price = line.strip().split(',') 
-        products.append([name, price])
-print(products)
+import os # operating system(作業系統模組)
+# 讀取檔案
+products = [] # 不管有沒有找到檔案，都要產生這個清單，所以放在if的上面
+if os.path.isfile('products.csv'): # 只給檔名是相對路徑(比如在與程式檔相同的資料夾)，給地址是絕對路徑
+    print('yeah! the file is found!')
+    with open('products.csv', 'r', encoding = 'utf-8') as f:
+        for line in f:
+            if '商品,價格' in line:
+                continue # 跳到下一迴
+            name, price = line.strip().split(',') 
+            products.append([name, price])
+    print(products)
+else:
+    print('the file cannot be found')
+# os中有一個叫path的模組，模組中有一個叫isfile的功能
 # 一個line是一行(apple, 10)，split是切割的意思，用逗點來作切割；先刪除/n，再切割
 #split切割完就會變清單；每個s是一個清單
 # continue 跟 break 一樣只能寫在迴圈裡
@@ -31,7 +37,6 @@ with open('products.csv', 'w', encoding = 'utf-8') as f: # 可寫成txt或csv檔
     f.write('商品,價格\n')
     for p in products:
         f.write(p[0] + ',' + str(p[1]) + '\n') # 加法是字串跟字串作合併，str是將之轉乘字串
-
 # with幫你自動關閉close
 # 若打開excel或將csv檔放入sublime，出現的是亂碼的話→需要編碼encoding，寫入與讀取都會牽扯到編碼
 # utf-8 是最廣泛使用的編碼
